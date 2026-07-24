@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Currículo — Juliana Giroto Mosconi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1B3A52;
+            --primary-light: #E8EDF2;
+            --primary-mid: #C5D4E3;
+            --accent: #2563EB;
+            --text-dark: #1F2937;
+            --text-mid: #4B5563;
+            --text-light: #6B7280;
+            --bg-body: #F1F5F9;
+            --bg-card: #FFFFFF;
+            --bg-sidebar: #F8FAFC;
+            --border: #E2E8F0;
+            --card-min-height: 0px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { font-size: 16px; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* === TOP BAR === */
+        .top-bar {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 8px;
+        }
+        .top-bar-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .top-bar-brand .material-icons-round { font-size: 22px; color: var(--accent); }
+        .top-bar-brand span { font-size: 14px; font-weight: 700; color: var(--primary); letter-spacing: -0.3px; white-space: nowrap; }
+        .top-bar-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 7px 12px; border-radius: var(--radius-sm);
+            font-size: 11.5px; font-weight: 600; font-family: inherit;
+            border: none; cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+            white-space: nowrap;
+        }
+        .btn .material-icons-round { font-size: 15px; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: var(--shadow-sm); }
+        .btn-primary:hover { background: #243D52; transform: translateY(-1px); box-shadow: var(--shadow); }
+        .btn-secondary { background: var(--bg-sidebar); color: var(--text-mid); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--primary-light); color: var(--primary); }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-accent:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+        /* === MENU DROPDOWN === */
+        .menu-wrapper { position: relative; }
+        .menu-btn { padding: 7px 12px; }
+        .menu-dropdown {
+            display: none;
+            position: absolute; top: 100%; right: 0; margin-top: 6px;
+            min-width: 220px;
+            background: var(--bg-card); border-radius: var(--radius);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border: 1px solid var(--border);
+            z-index: 2000;
+            padding: 8px;
+        }
+        .menu-dropdown.show { display: block; }
+        .menu-group { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .menu-group:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .menu-label { font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; padding: 4px 8px 6px; }
+        .menu-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px; border-radius: var(--radius-sm);
+            font-size: 12.5px; color: var(--text-dark); cursor: pointer;
+            transition: background 0.15s; border: none; background: none;
+            width: 100%; text-align: left; font-family: inherit;
+        }
+        .menu-item:hover { background: var(--primary-light); }
+        .menu-item .material-icons-round { font-size: 17px; color: var(--text-mid); flex-shrink: 0; }
+        .menu-item input[type="file"] { display: none; }
+        .menu-item .color-row { display: flex; align-items: center; gap: 6px; width: 100%; }
+        .menu-item .color-row label { flex: 1; font-size: 12px; }
+        .menu-item .color-row input[type="color"] { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 6px; padding: 1px; cursor: pointer; background: none; }
+        .menu-item .color-row input[type="text"] { width: 70px; font-size: 11px; padding: 3px 5px; border: 1px solid var(--border); border-radius: 4px; font-family: monospace; }
+
+        .height-slider-row { display: flex; align-items: center; gap: 8px; width: 100%; }
+        .height-slider-row input[type="range"] { flex: 1; height: 4px; accent-color: var(--accent); }
+        .height-slider-row .height-val { font-size: 11px; color: var(--text-light); min-width: 30px; text-align: right; }
+
+        /* === OVERLAY === */
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1500; }
+        .menu-overlay.show { display: block; }
+
+        /* === PHOTO CONTROLS === */
+        .photo-controls { display: none; margin-top: 10px; gap: 6px; flex-direction: column; }
+        .photo-controls.show { display: flex; }
+        .photo-controls label { font-size: 10.5px; color: var(--text-light); font-weight: 600; }
+        .photo-controls select, .photo-controls input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+        /* === DASHBOARD LAYOUT === */
+        .dashboard-wrapper { padding: 20px; max-width: 1120px; margin: 0 auto; }
+        .dashboard { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+
+        /* === SIDEBAR === */
+        .sidebar { display: flex; flex-direction: column; gap: 14px; }
+        .profile-card {
+            background: var(--bg-card); border-radius: var(--radius-lg);
+            padding: 28px 22px; box-shadow: var(--shadow); text-align: center;
+            position: relative; overflow: hidden;
+            min-height: var(--card-min-height);
+        }
+        .profile-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        .photo-wrapper {
+            width: 130px; height: 130px;
+            margin: 0 auto 16px; border-radius: 50%; overflow: hidden;
+            border: 3px solid var(--primary-light); box-shadow: var(--shadow);
+            background: var(--primary-light); position: relative;
+        }
+        .photo-wrapper img {
+            width: 100%; height: 100%; display: block;
+            object-fit: cover; object-position: center center;
+        }
+        .profile-name { font-size: 20px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; line-height: 1.2; }
+        .profile-title { font-size: 13px; color: var(--text-light); margin-top: 6px; font-weight: 500; }
+        .sidebar-card {
+            background: var(--bg-card); border-radius: var(--radius);
+            padding: 18px; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+            min-height: var(--card-min-height);
+        }
+        .card-header {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--primary-light);
+        }
+        .card-header .material-icons-round { font-size: 18px; color: var(--accent); }
+        .card-header h3 { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; }
+        .contact-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 12.5px; color: var(--text-mid); word-break: break-word; }
+        .contact-item .material-icons-round { font-size: 16px; color: var(--accent); margin-top: 1px; flex-shrink: 0; }
+        .contact-item a { color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+        .contact-item a:hover { color: var(--accent); }
+        .lang-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .lang-item:last-child { border-bottom: none; }
+        .lang-name { font-size: 12.5px; font-weight: 600; color: var(--text-dark); }
+        .lang-level { font-size: 11px; color: var(--text-light); background: var(--primary-light); padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
+        .edu-item { margin-bottom: 10px; }
+        .edu-item:last-child { margin-bottom: 0; }
+        .edu-title { font-size: 12.5px; font-weight: 600; color: var(--text-dark); line-height: 1.4; }
+        .edu-detail { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+        .tool-tag { display: inline-block; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; margin: 3px; }
+
+        /* === MAIN CONTENT === */
+        .main-content { display: flex; flex-direction: column; gap: 14px; }
+        .main-card {
+            background: var(--bg-card); border-radius: var(--radius-lg);
+            padding: 22px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+            min-height: var(--card-min-height);
+        }
+        .main-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+        }
+        .main-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .main-card-header .material-icons-round { font-size: 22px; color: var(--accent); }
+        .main-card-header h2 { font-size: 13px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; }
+        .summary-text { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+        .summary-text p { margin-bottom: 10px; }
+        .summary-text p:last-child { margin-bottom: 0; }
+
+        /* Experience */
+        .exp-item { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+        .exp-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; flex-wrap: wrap; gap: 4px; }
+        .exp-role { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+        .exp-date { font-size: 11px; color: var(--text-light); background: var(--primary-light); padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+        .exp-company { font-size: 12px; color: var(--text-mid); font-weight: 500; margin-bottom: 6px; }
+        .exp-list { list-style: none; padding: 0; }
+        .exp-list li { font-size: 12px; color: var(--text-mid); padding: 3px 0; padding-left: 18px; position: relative; line-height: 1.5; }
+        .exp-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+        /* Skills */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-pill { background: linear-gradient(135deg, var(--primary-light), #F0F4F8); color: var(--primary); font-size: 11.5px; font-weight: 600; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--primary-mid); transition: all 0.2s; cursor: default; }
+        .skill-pill:hover { background: var(--primary); color: white; transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+        /* Education Continued */
+        .edu-cont-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .edu-cont-item {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; color: var(--text-mid);
+            padding: 10px 12px;
+            background: var(--bg-sidebar); border-radius: var(--radius-sm);
+            min-height: 40px;
+        }
+        .edu-cont-item .material-icons-round { font-size: 16px; color: var(--accent); flex-shrink: 0; }
+        .edu-cont-item .item-text { flex: 1; line-height: 1.4; }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            html { font-size: 15px; }
+            .top-bar { padding: 10px 14px; }
+            .top-bar-brand span { font-size: 12px; }
+            .btn { padding: 6px 9px; font-size: 10.5px; }
+            .btn .material-icons-round { font-size: 14px; }
+            .btn span:not(.material-icons-round):not(.btn-label-force) { display: none; }
+            .dashboard-wrapper { padding: 12px; }
+            .dashboard { grid-template-columns: 1fr; gap: 12px; }
+            .sidebar { gap: 12px; }
+            .profile-card { padding: 20px 16px; }
+            .photo-wrapper { width: 110px; height: 110px; }
+            .profile-name { font-size: 18px; }
+            .main-card { padding: 16px; }
+            .edu-cont-list { grid-template-columns: 1fr; }
+            .exp-header { flex-direction: column; gap: 4px; }
+            .exp-date { align-self: flex-start; }
+        }
+        @media (max-width: 480px) {
+            .top-bar-actions { gap: 4px; }
+            .btn { padding: 5px 7px; }
+        }
+
+        /* === PRINT === */
+        @media print {
+            body { background: white; padding: 0; }
+            .top-bar { display: none !important; }
+            .dashboard-wrapper { padding: 0; max-width: 100%; }
+            .dashboard { grid-template-columns: 260px 1fr; gap: 16px; }
+            .main-card, .sidebar-card, .profile-card {
+                box-shadow: none; border: 1px solid #ddd; break-inside: avoid; page-break-inside: avoid;
+            }
+            .skill-pill:hover { transform: none; background: linear-gradient(135deg, var(--primary-light), #F0F4F8); color: var(--primary); }
+        }
+
+        /* === EDITABLE === */
+        [contenteditable="true"] { outline: none; }
+        [contenteditable="true"]:focus { background: rgba(37, 99, 235, 0.04); border-radius: 4px; }
+
+        .edit-hint {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--primary); color: white;
+            padding: 10px 18px; border-radius: var(--radius);
+            font-size: 12px; font-weight: 500;
+            box-shadow: var(--shadow-lg); z-index: 1000;
+            display: flex; align-items: center; gap: 8px;
+            animation: slideUp 0.4s ease;
+        }
+        .edit-hint .material-icons-round { font-size: 16px; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <nav class="top-bar">
+        <div class="top-bar-brand">
+            <span class="material-icons-round">description</span>
+            <span>Currículo Juliana Giroto</span>
+        </div>
+        <div class="top-bar-actions">
+            <button class="btn btn-secondary" onclick="salvarPDF()">
+                <span class="material-icons-round">picture_as_pdf</span>
+                <span>PDF</span>
+            </button>
+            <button class="btn btn-secondary" onclick="salvarDOCX()">
+                <span class="material-icons-round">description</span>
+                <span>DOCX</span>
+            </button>
+            <div class="menu-wrapper">
+                <button class="btn btn-primary menu-btn" onclick="toggleMenu()">
+                    <span class="material-icons-round">tune</span>
+                    <span>Personalizar</span>
+                </button>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <div class="menu-group">
+                        <div class="menu-label">📷 Foto</div>
+                        <button class="menu-item" onclick="document.getElementById('photoUpload').click()">
+                            <span class="material-icons-round">add_a_photo</span>
+                            <span>Alterar foto</span>
+                            <input type="file" id="photoUpload" accept="image/*" onchange="carregarFoto(event)">
+                        </button>
+                        <button class="menu-item" onclick="removerFoto()">
+                            <span class="material-icons-round">delete</span>
+                            <span>Remover foto</span>
+                        </button>
+                        <div style="padding:4px 10px 0;display:flex;gap:6px;flex-direction:column;">
+                            <label style="font-size:10.5px;color:var(--text-light);font-weight:600;">Ajuste da foto</label>
+                            <select id="photoFit" onchange="ajustarFoto()" style="padding:4px 6px;border:1px solid var(--border);border-radius:4px;font-size:11px;font-family:inherit;">
+                                <option value="cover">Preencher (cover)</option>
+                                <option value="contain">Ajustar (contain)</option>
+                                <option value="fill">Esticar (fill)</option>
+                            </select>
+                            <div style="display:flex;gap:6px;align-items:center;">
+                                <span style="font-size:10.5px;color:var(--text-light);">H:</span>
+                                <input type="range" id="photoPosH" min="0" max="100" value="50" oninput="ajustarFoto()" style="flex:1;accent-color:var(--accent);">
+                            </div>
+                            <div style="display:flex;gap:6px;align-items:center;">
+                                <span style="font-size:10.5px;color:var(--text-light);">V:</span>
+                                <input type="range" id="photoPosV" min="0" max="100" value="50" oninput="ajustarFoto()" style="flex:1;accent-color:var(--accent);">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-group">
+                        <div class="menu-label">🎨 Cores do Tema</div>
+                        <div id="colorPickers"></div>
+                    </div>
+
+                    <div class="menu-group">
+                        <div class="menu-label">📏 Altura dos Cards</div>
+                        <div style="padding:4px 10px;">
+                            <div class="height-slider-row">
+                                <span style="font-size:11px;color:var(--text-mid);">Min-height dos cards</span>
+                                <input type="range" id="cardHeightSlider" min="0" max="400" value="0" oninput="ajustarAltura(this.value)">
+                                <span class="height-val" id="cardHeightVal">0px</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-group">
+                        <div class="menu-label">⚙️ Opções</div>
+                        <button class="menu-item" onclick="resetarTudo()">
+                            <span class="material-icons-round">restart_alt</span>
+                            <span>Restaurar padrão</span>
+                        </button>
+                        <button class="menu-item" onclick="baixarConfig()">
+                            <span class="material-icons-round">download</span>
+                            <span>Baixar configurações</span>
+                        </button>
+                        <button class="menu-item" onclick="document.getElementById('restoreInput').click()">
+                            <span class="material-icons-round">upload_file</span>
+                            <span>Restaurar configurações</span>
+                            <input type="file" id="restoreInput" accept=".json" onchange="restaurarConfig(event)" style="display:none;">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- OVERLAY -->
+    <div class="menu-overlay" id="menuOverlay" onclick="fecharMenu()"></div>
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="profile-card" contenteditable="true">
+                    <div class="photo-wrapper" id="photoWrapper">
+                        <img id="profilePhoto" src="" alt="Foto">
+                    </div>
+                    <div class="profile-name">JULIANA GIROTO<br>MOSCONI</div>
+                    <div class="profile-title">Médica Veterinária</div>
+                </div>
+
+                <div class="sidebar-card" contenteditable="true">
+                    <div class="card-header">
+                        <span class="material-icons-round">contact_phone</span>
+                        <h3>Contato</h3>
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-icons-round">smartphone</span>
+                        <span>11 94797.1120</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-icons-round">email</span>
+                        <a href="mailto:julianagirotomosconi@hotmail.com">julianagirotomosconi@hotmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-icons-round">location_on</span>
+                        <span>São Bernardo do Campo, SP</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-icons-round">link</span>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-card" contenteditable="true">
+                    <div class="card-header">
+                        <span class="material-icons-round">translate</span>
+                        <h3>Idiomas</h3>
+                    </div>
+                    <div class="lang-item"><span class="lang-name">Inglês</span><span class="lang-level">Leitura e boa escrita</span></div>
+                    <div class="lang-item"><span class="lang-name">Espanhol</span><span class="lang-level">Leitura e boa escrita</span></div>
+                </div>
+
+                <div class="sidebar-card" contenteditable="true">
+                    <div class="card-header">
+                        <span class="material-icons-round">school</span>
+                        <h3>Formação</h3>
+                    </div>
+                    <div class="edu-item">
+                        <div class="edu-title">Medicina Veterinária</div>
+                        <div class="edu-detail">USJT · 2016–2022</div>
+                    </div>
+                    <div class="edu-item">
+                        <div class="edu-title">Pós em Nutrologia Clínica de Cães e Gatos</div>
+                        <div class="edu-detail">2025–2026</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card" contenteditable="true">
+                    <div class="card-header">
+                        <span class="material-icons-round">build</span>
+                        <h3>Ferramentas</h3>
+                    </div>
+                    <div>
+                        <span class="tool-tag">Microsoft Office</span>
+                        <span class="tool-tag">Google Workspace</span>
+                        <span class="tool-tag">Canva</span>
+                        <span class="tool-tag">Redes Sociais</span>
+                        <span class="tool-tag">CRM / Prontuário</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- MAIN -->
+            <main class="main-content">
+                <div class="main-card" contenteditable="true">
+                    <div class="main-card-header">
+                        <span class="material-icons-round">person</span>
+                        <h2>Resumo Profissional</h2>
+                    </div>
+                    <div class="summary-text">
+                        <p>Médica Veterinária com experiência em clínica médica de pequenos animais, atendimento hospitalar e consultoria técnica em nutrição animal. Pós-graduada em Nutrologia de Cães e Gatos, com atuação voltada à elaboração de estratégias nutricionais individualizadas, acompanhamento clínico-nutricional e orientação de tutores baseada em evidências científicas.</p>
+                        <p>Experiência consolidada em atendimento domiciliar clínico e nutricional, consultorias online, comunicação técnica com clientes e educação nutricional, somada à vivência hospitalar de alta complexidade e passagem pela Royal Canin. Perfil analítico, comunicativo e orientado à educação continuada, com interesse em contribuir para empresas comprometidas com ciência e inovação em nutrição veterinária.</p>
+                    </div>
+                </div>
+
+                <div class="main-card" contenteditable="true">
+                    <div class="main-card-header">
+                        <span class="material-icons-round">work</span>
+                        <h2>Experiência Profissional</h2>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-header"><span class="exp-role">Médica Veterinária Autônoma</span><span class="exp-date">2025 – Atual</span></div>
+                        <div class="exp-company">Atendimento Clínico e Nutricional</div>
+                        <ul class="exp-list">
+                            <li>Atendimento clínico domiciliar e avaliação nutricional individualizada.</li>
+                            <li>Elaboração de planos alimentares conforme condição clínica, estágio de vida e objetivos terapêuticos.</li>
+                            <li>Prescrição e acompanhamento de dietas terapêuticas e suplementação baseada em evidências.</li>
+                            <li>Consultorias nutricionais online e acompanhamento longitudinal dos pacientes.</li>
+                        </ul>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-header"><span class="exp-role">Médica Veterinária Júnior</span><span class="exp-date">2024 – 2025</span></div>
+                        <div class="exp-company">WeVets — Internação</div>
+                        <ul class="exp-list">
+                            <li>Atendimento de pacientes críticos e de média complexidade, com monitoramento intensivo.</li>
+                            <li>Comunicação frequente com tutores sobre evolução clínica e condutas terapêuticas.</li>
+                            <li>Trabalho integrado com equipes multidisciplinares e protocolos hospitalares.</li>
+                        </ul>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-header"><span class="exp-role">Especialista Veterinária</span><span class="exp-date">Projeto Royal Canin</span></div>
+                        <div class="exp-company">Soul Trade Marketing</div>
+                        <ul class="exp-list">
+                            <li>Educação nutricional para tutores e orientação técnica sobre linhas e dietas terapêuticas.</li>
+                            <li>Atendimento consultivo ao cliente e suporte técnico às equipes comerciais.</li>
+                            <li>Divulgação científica dos produtos e fortalecimento do relacionamento com a marca.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="main-card" contenteditable="true">
+                    <div class="main-card-header">
+                        <span class="material-icons-round">auto_awesome</span>
+                        <h2>Áreas de Especialização</h2>
+                    </div>
+                    <div class="skills-grid">
+                        <span class="skill-pill">Nutrologia Clínica</span>
+                        <span class="skill-pill">Nutrição Terapêutica</span>
+                        <span class="skill-pill">Gastroenterologia</span>
+                        <span class="skill-pill">Dermatologia Nutricional</span>
+                        <span class="skill-pill">Obesidade</span>
+                        <span class="skill-pill">Pacientes Renais</span>
+                        <span class="skill-pill">Atendimento Consultivo</span>
+                        <span class="skill-pill">Customer Experience</span>
+                        <span class="skill-pill">Comunicação Técnica</span>
+                        <span class="skill-pill">Medicina Baseada em Evidências</span>
+                    </div>
+                </div>
+
+                <div class="main-card" contenteditable="true">
+                    <div class="main-card-header">
+                        <span class="material-icons-round">local_library</span>
+                        <h2>Educação Continuada</h2>
+                    </div>
+                    <div class="edu-cont-list">
+                        <div class="edu-cont-item">
+                            <span class="material-icons-round">event</span>
+                            <span class="item-text">Congresso MSD</span>
+                        </div>
+                        <div class="edu-cont-item">
+                            <span class="material-icons-round">event</span>
+                            <span class="item-text">Congressos BR CAV</span>
+                        </div>
+                        <div class="edu-cont-item">
+                            <span class="material-icons-round">groups</span>
+                            <span class="item-text">Grupos de Estudos em Nutrologia Clínica</span>
+                        </div>
+                        <div class="edu-cont-item">
+                            <span class="material-icons-round">pets</span>
+                            <span class="item-text">Atualizações em Medicina Felina</span>
+                        </div>
+                        <div class="edu-cont-item">
+                            <span class="material-icons-round">science</span>
+                            <span class="item-text">Atualizações em Gastroenterologia</span>
+                        </div>
+                        <div class="edu-cont-item">
+                            <span class="material-icons-round">restaurant</span>
+                            <span class="item-text">Nutrição Clínica de Pequenos Animais</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="edit-hint" id="editHint">
+        <span class="material-icons-round">edit</span>
+        Clique em qualquer texto para editar
+    </div>
+
+<script>
+// ============================
+// CORES DO TEMA
+// ============================
+const CORES_PADRAO = {
+    '--primary': '#1B3A52',
+    '--primary-light': '#E8EDF2',
+    '--primary-mid': '#C5D4E3',
+    '--accent': '#2563EB',
+    '--text-dark': '#1F2937',
+    '--text-mid': '#4B5563',
+    '--text-light': '#6B7280',
+    '--bg-body': '#F1F5F9',
+    '--bg-card': '#FFFFFF',
+    '--bg-sidebar': '#F8FAFC',
+    '--border': '#E2E8F0'
+};
+
+const CORES_LABELS = {
+    '--primary': 'Principal',
+    '--primary-light': 'Principal (claro)',
+    '--primary-mid': 'Principal (médio)',
+    '--accent': 'Destaque',
+    '--text-dark': 'Texto escuro',
+    '--text-mid': 'Texto médio',
+    '--text-light': 'Texto claro',
+    '--bg-body': 'Fundo da página',
+    '--bg-card': 'Fundo dos cards',
+    '--bg-sidebar': 'Fundo sidebar',
+    '--border': 'Bordas'
+};
+
+function montarColorPickers() {
+    const container = document.getElementById('colorPickers');
+    container.innerHTML = '';
+    for (const [varName, valorPadrao] of Object.entries(CORES_PADRAO)) {
+        const saved = localStorage.getItem('theme-' + varName) || valorPadrao;
+        const div = document.createElement('div');
+        div.style.cssText = 'padding:4px 10px;';
+        div.innerHTML = `
+            <div class="color-row">
+                <label>${CORES_LABELS[varName]}</label>
+                <input type="color" class="color-input" data-var="${varName}" value="${saved}" oninput="aplicarCor('${varName}', this.value)">
+                <input type="text" class="color-hex" data-var="${varName}" value="${saved}" oninput="aplicarCorHex('${varName}', this.value)" maxlength="7">
+            </div>
+        `;
+        container.appendChild(div);
+    }
+    // Aplicar cores salvas
+    for (const varName of Object.keys(CORES_PADRAO)) {
+        const saved = localStorage.getItem('theme-' + varName);
+        if (saved) {
+            document.documentElement.style.setProperty(varName, saved);
+        }
+    }
+}
+
+function aplicarCor(varName, value) {
+    document.documentElement.style.setProperty(varName, value);
+    localStorage.setItem('theme-' + varName, value);
+    // Sincronizar o input hex
+    const hexInput = document.querySelector(`.color-hex[data-var="${varName}"]`);
+    if (hexInput) hexInput.value = value;
+}
+
+function aplicarCorHex(varName, value) {
+    if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        document.documentElement.style.setProperty(varName, value);
+        localStorage.setItem('theme-' + varName, value);
+        const colorInput = document.querySelector(`.color-input[data-var="${varName}"]`);
+        if (colorInput) colorInput.value = value;
+    }
+}
+
+// ============================
+// FOTO
+// ============================
+function carregarFoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = document.getElementById('profilePhoto');
+        img.src = e.target.result;
+        localStorage.setItem('cv-photo', e.target.result);
+        ajustarFoto();
+    };
+    reader.readAsDataURL(file);
+}
+
+function removerFoto() {
+    const img = document.getElementById('profilePhoto');
+    img.src = '';
+    localStorage.removeItem('cv-photo');
+}
+
+function ajustarFoto() {
+    const img = document.getElementById('profilePhoto');
+    const fit = document.getElementById('photoFit').value;
+    const h = document.getElementById('photoPosH').value;
+    const v = document.getElementById('photoPosV').value;
+    img.style.objectFit = fit;
+    img.style.objectPosition = h + '% ' + v + '%';
+    localStorage.setItem('cv-photo-fit', fit);
+    localStorage.setItem('cv-photo-h', h);
+    localStorage.setItem('cv-photo-v', v);
+}
+
+function carregarFotoSalva() {
+    const savedPhoto = localStorage.getItem('cv-photo');
+    if (savedPhoto) {
+        document.getElementById('profilePhoto').src = savedPhoto;
+    }
+    const savedFit = localStorage.getItem('cv-photo-fit');
+    const savedH = localStorage.getItem('cv-photo-h');
+    const savedV = localStorage.getItem('cv-photo-v');
+    if (savedFit) document.getElementById('photoFit').value = savedFit;
+    if (savedH) document.getElementById('photoPosH').value = savedH;
+    if (savedV) document.getElementById('photoPosV').value = savedV;
+    ajustarFoto();
+}
+
+// ============================
+// ALTURA DOS CARDS
+// ============================
+function ajustarAltura(value) {
+    document.documentElement.style.setProperty('--card-min-height', value + 'px');
+    document.getElementById('cardHeightVal').textContent = value + 'px';
+    localStorage.setItem('cv-card-height', value);
+}
+
+function carregarAlturaSalva() {
+    const saved = localStorage.getItem('cv-card-height');
+    if (saved) {
+        document.getElementById('cardHeightSlider').value = saved;
+        ajustarAltura(parseInt(saved));
+    }
+}
+
+// ============================
+// MENU
+// ============================
+function toggleMenu() {
+    const menu = document.getElementById('menuDropdown');
+    const overlay = document.getElementById('menuOverlay');
+    const isOpen = menu.classList.toggle('show');
+    overlay.classList.toggle('show', isOpen);
+}
+
+function fecharMenu() {
+    document.getElementById('menuDropdown').classList.remove('show');
+    document.getElementById('menuOverlay').classList.remove('show');
+}
+
+// ============================
+// PDF (via impressão)
+// ============================
+function salvarPDF() {
+    window.print();
+}
+
+// ============================
+// DOCX (Word format)
+// ============================
+function salvarDOCX() {
+    // Clona o conteúdo do currículo (sem o menu/topbar)
+    const wrapper = document.querySelector('.dashboard-wrapper').cloneNode(true);
+    
+    // Remove contenteditable para o DOCX
+    wrapper.querySelectorAll('[contenteditable]').forEach(el => {
+        el.removeAttribute('contenteditable');
+    });
+
+    const style = document.querySelector('style').innerHTML;
+    
+    const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+<style>${style}</style>
+<style>
+  .top-bar, .edit-hint, .menu-wrapper, .menu-dropdown, .menu-overlay { display: none !important; }
+  body { background: white; padding: 20px; }
+  .dashboard-wrapper { padding: 0; max-width: 100%; }
+  .main-card, .sidebar-card, .profile-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+  @page { margin: 1.5cm; }
+</style>
+</head>
+<body>${wrapper.outerHTML}</body></html>`;
+
+    const blob = new Blob([html], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Curriculo_Juliana_Giroto_Mosconi.doc';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// ============================
+// RESET / CONFIG
+// ============================
+function resetarTudo() {
+    if (!confirm('Restaurar todas as configurações padrão?')) return;
+    localStorage.clear();
+    location.reload();
+}
+
+function baixarConfig() {
+    const data = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        data[key] = localStorage.getItem(key);
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'curriculo-config.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function restaurarConfig(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            for (const [key, value] of Object.entries(data)) {
+                localStorage.setItem(key, value);
+            }
+            location.reload();
+        } catch(err) {
+            alert('Arquivo de configuração inválido.');
+        }
+    };
+    reader.readAsText(file);
+}
+
+// ============================
+// AUTO-SAVE TEXT + LOAD
+// ============================
+document.addEventListener('click', function() {
+    const hint = document.getElementById('editHint');
+    if (hint) hint.style.display = 'none';
+});
+
+document.querySelectorAll('[contenteditable="true"]').forEach((el, index) => {
+    const key = 'cv-edit-' + index;
+    const saved = localStorage.getItem(key);
+    if (saved) el.innerHTML = saved;
+    el.addEventListener('input', function() {
+        localStorage.setItem(key, el.innerHTML);
+    });
+});
+
+// Ctrl+R para resetar edições de texto
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'r') {
+        e.preventDefault();
+        if (confirm('Limpar todas as edições e restaurar o original?')) {
+            // Salva só tema e foto
+            const themeKeys = Object.keys(CORES_PADRAO).map(k => 'theme-' + k);
+            const extras = ['cv-photo', 'cv-photo-fit', 'cv-photo-h', 'cv-photo-v', 'cv-card-height'];
+            const keep = [...themeKeys, ...extras];
+            const toRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (!keep.includes(key)) toRemove.push(key);
+            }
+            toRemove.forEach(k => localStorage.removeItem(k));
+            location.reload();
+        }
+    }
+});
+
+// ============================
+// INIT
+// ============================
+montarColorPickers();
+carregarFotoSalva();
+carregarAlturaSalva();
+</script>
+</body>
+</html>
