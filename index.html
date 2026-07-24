@@ -288,7 +288,7 @@
                     <div class="menu-group">
                         <div class="menu-label">📷 Foto</div>
                         <input type="file" id="photoUpload" accept="image/*" onchange="carregarFoto(event)"
-                               style="position:fixed;top:-100px;left:-100px;opacity:0;width:1px;height:1px;pointer-events:none;">
+                               style="position:fixed;top:-9999px;left:-9999px;width:0;height:0;opacity:0;overflow:hidden;" tabindex="-1">
                         <button class="menu-item" type="button" onclick="document.getElementById('photoUpload').click()">
                             <span class="material-icons-round">add_a_photo</span>
                             <span>Alterar foto</span>
@@ -350,7 +350,7 @@
                             <span>Baixar configurações</span>
                         </button>
                         <input type="file" id="restoreInput" accept=".json" onchange="restaurarConfig(event)"
-                               style="position:fixed;top:-100px;left:-100px;opacity:0;width:1px;height:1px;pointer-events:none;">
+                               style="position:fixed;top:-9999px;left:-9999px;width:0;height:0;opacity:0;overflow:hidden;" tabindex="-1">
                         <button class="menu-item" type="button" onclick="document.getElementById('restoreInput').click()">
                             <span class="material-icons-round">upload_file</span>
                             <span>Restaurar configurações</span>
