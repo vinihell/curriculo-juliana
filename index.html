@@ -96,9 +96,6 @@
         .height-slider-row input[type="range"] { flex: 1; height: 4px; accent-color: var(--accent); }
         .height-slider-row .height-val { font-size: 11px; color: var(--text-light); min-width: 30px; text-align: right; }
 
-        .menu-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1500; }
-        .menu-overlay.show { display: block; }
-
         .photo-controls { display: none; margin-top: 10px; gap: 6px; flex-direction: column; }
         .photo-controls.show { display: flex; }
 
@@ -216,7 +213,7 @@
 
         @media print {
             body { background: white !important; }
-            .top-bar, .edit-hint, .menu-wrapper, .menu-dropdown, .menu-overlay { display: none !important; }
+            .top-bar, .edit-hint, .menu-wrapper, .menu-dropdown { display: none !important; }
             #printFrame { display: none !important; }
         }
 
@@ -360,8 +357,6 @@
             </div>
         </div>
     </nav>
-
-    <div class="menu-overlay" id="menuOverlay" onclick="fecharMenu()"></div>
 
     <!-- LINK DIALOG -->
     <div class="link-dialog-overlay" id="linkDialog">
@@ -711,18 +706,25 @@ function carregarAlturaSalva() {
 // ============================
 function toggleMenu() {
     const menu = document.getElementById('menuDropdown');
-    const overlay = document.getElementById('menuOverlay');
-    if (!menu || !overlay) return;
-    const isOpen = menu.classList.toggle('show');
-    overlay.classList.toggle('show', isOpen);
+    if (!menu) return;
+    menu.classList.toggle('show');
 }
 
 function fecharMenu() {
     const menu = document.getElementById('menuDropdown');
-    const overlay = document.getElementById('menuOverlay');
     if (menu) menu.classList.remove('show');
-    if (overlay) overlay.classList.remove('show');
 }
+
+// Fecha menu ao clicar fora
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('menuDropdown');
+    const btn = document.querySelector('.menu-btn');
+    if (menu && menu.classList.contains('show')) {
+        const isMenu = menu.contains(e.target);
+        const isBtn = btn && btn.contains(e.target);
+        if (!isMenu && !isBtn) fecharMenu();
+    }
+});
 
 // ============================
 // PDF (fit-to-page A4)
@@ -737,7 +739,7 @@ function salvarPDF() {
     // Remove contenteditable e interactive elements
     clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
     // Remove wrappers de menu/link do clone
-    clone.querySelectorAll('.top-bar, .edit-hint, .menu-wrapper, .menu-dropdown, .menu-overlay').forEach(el => el.remove());
+    clone.querySelectorAll('.top-bar, .edit-hint, .menu-wrapper, .menu-dropdown').forEach(el => el.remove());
 
     const style = document.querySelector('style') ? document.querySelector('style').innerHTML : '';
 
@@ -747,7 +749,7 @@ function salvarPDF() {
 ${style}
 body{background:white!important;margin:0;padding:0;display:flex;justify-content:center;}
 #print-content{width:794px;padding:15px 20px;transform-origin:top center;}
-.top-bar,.edit-hint,.menu-wrapper,.menu-dropdown,.menu-overlay,.link-dialog-overlay{display:none!important;}
+.top-bar,.edit-hint,.menu-wrapper,.menu-dropdown,.link-dialog-overlay{display:none!important;}
 .dashboard-wrapper{padding:0!important;max-width:100%!important;}
 .main-card,.sidebar-card,.profile-card{box-shadow:none!important;border:1px solid #ccc!important;break-inside:avoid;}
 .dashboard{grid-template-columns:260px 1fr;gap:14px;}
@@ -782,14 +784,14 @@ function salvarDOCX() {
 
     const clone = wrapper.cloneNode(true);
     clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-    clone.querySelectorAll('.top-bar, .edit-hint, .menu-wrapper, .menu-dropdown, .menu-overlay').forEach(el => el.remove());
+    clone.querySelectorAll('.top-bar, .edit-hint, .menu-wrapper, .menu-dropdown').forEach(el => el.remove());
 
     const style = document.querySelector('style') ? document.querySelector('style').innerHTML : '';
 
     const html = `<!DOCTYPE html>
 <html><head><meta charset="UTF-8">
 <style>${style}
-.top-bar,.edit-hint,.menu-wrapper,.menu-dropdown,.menu-overlay,.link-dialog-overlay{display:none!important;}
+.top-bar,.edit-hint,.menu-wrapper,.menu-dropdown,.link-dialog-overlay{display:none!important;}
 body{background:white;padding:20px;}
 .dashboard-wrapper{padding:0;max-width:100%;}
 .main-card,.sidebar-card,.profile-card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}
