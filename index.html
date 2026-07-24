@@ -297,11 +297,11 @@
                 <div class="menu-dropdown" id="menuDropdown">
                     <div class="menu-group">
                         <div class="menu-label">📷 Foto</div>
-                        <input type="file" id="photoUpload" accept="image/*" onchange="carregarFoto(event)" style="display:none;">
-                        <button class="menu-item" onclick="document.getElementById('photoUpload').click()">
+                        <label class="menu-item" for="photoUpload" style="cursor:pointer;">
                             <span class="material-icons-round">add_a_photo</span>
                             <span>Alterar foto</span>
-                        </button>
+                        </label>
+                        <input type="file" id="photoUpload" accept="image/*" onchange="carregarFoto(event)" style="display:none;">
                         <button class="menu-item" onclick="removerFoto()">
                             <span class="material-icons-round">delete</span>
                             <span>Remover foto</span>
@@ -350,11 +350,11 @@
                             <span class="material-icons-round">download</span>
                             <span>Baixar configurações</span>
                         </button>
-                        <input type="file" id="restoreInput" accept=".json" onchange="restaurarConfig(event)" style="display:none;">
-                        <button class="menu-item" onclick="document.getElementById('restoreInput').click()">
+                        <label class="menu-item" for="restoreInput" style="cursor:pointer;">
                             <span class="material-icons-round">upload_file</span>
                             <span>Restaurar configurações</span>
-                        </button>
+                        </label>
+                        <input type="file" id="restoreInput" accept=".json" onchange="restaurarConfig(event)" style="display:none;">
                     </div>
                 </div>
             </div>
